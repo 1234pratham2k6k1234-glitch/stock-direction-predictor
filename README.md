@@ -100,6 +100,13 @@ It is **not financial advice**.
 
 ---
 
+## 📸 Screenshot
+
+<img width="800" height="500" alt="Screenshot 2026-04-02 170647" src="https://github.com/user-attachments/assets/4aa6b230-f0b6-4476-baf6-e50f7b5d7bb1" />
+<img width="800" height="500" alt="Screenshot 2026-04-02 170700" src="https://github.com/user-attachments/assets/05ade80d-d495-45a2-9c5f-b1512b5f7bf9" />
+<img width="800" height="500" alt="Screenshot 2026-04-02 170710" src="https://github.com/user-attachments/assets/27774400-ec13-4232-8440-b6aaa76c58d2" />
+
+
 ## 👨‍💻 Author
 
 **Pratham Agarwal**
