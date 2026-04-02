@@ -1,0 +1,13 @@
+streamlit
+streamlit-autorefresh
+yfinance
+pandas
+numpy
+plotly
+scikit-learn
+ta
+xgboost
+feedparser
+nltk
+beautifulsoup4
+requests
