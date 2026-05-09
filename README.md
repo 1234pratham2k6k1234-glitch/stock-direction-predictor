@@ -1,118 +1,176 @@
-# 📈 Stock Price Direction Predictor
+# 📈 Stock Direction Predictor with Sentiment Analysis
 
-A machine learning-powered Streamlit dashboard that predicts stock price direction (UP/DOWN) and generates BUY/SELL signals using technical indicators and news sentiment.
-
----
-
-## 🚀 Features
-
-- 📊 Real-time stock data using Yahoo Finance
-- 🤖 XGBoost machine learning model
-- 📰 News sentiment analysis using NLP (VADER)
-- 📈 Interactive charts with Plotly
-- 🔄 Auto-refresh dashboard
-- 📉 Portfolio summary across multiple stocks
+An end-to-end Machine Learning system that predicts stock price direction using technical indicators and sentiment analysis, with built-in backtesting to evaluate trading strategies.
 
 ---
 
-## 🧠 How It Works
+## 🚀 Live Demo
 
-1. Fetch historical stock data  
-2. Generate technical indicators:
-   - Moving Averages (MA10, MA50)
-   - RSI (Relative Strength Index)
-   - MACD
-   - Daily Returns  
-3. Train an XGBoost classifier  
-4. Predict next-day price direction (UP/DOWN)  
-5. Fetch latest news and compute sentiment  
-6. Combine ML prediction + sentiment into final signal  
-
-Signals:
-- BUY 📈  
-- SELL 📉  
-- HOLD ⏳  
+👉 https://stock-direction-predictor-av6i8ugm2pmgiefvws5ohy.streamlit.app/
 
 ---
 
-## 📦 Installation
+## 📌 Problem Statement
 
-### 1. Clone the repository
+Stock price movement is highly noisy and difficult to predict.
+This project aims to:
+
+* Predict **next-day stock direction**
+* Combine **technical indicators + news sentiment**
+* Evaluate performance using **backtesting**
+
+---
+
+## ⚙️ Tech Stack
+
+* **Language:** Python
+* **ML Model:** XGBoost
+* **Libraries:** Pandas, NumPy, Scikit-learn, TA
+* **Visualization:** Plotly, Streamlit
+* **Data Source:** yFinance
+* **NLP:** NLTK (VADER Sentiment Analysis)
+
+---
+
+## 🧠 Approach
+
+### 1. Feature Engineering
+
+* Moving Averages (MA10, MA50)
+* RSI (Relative Strength Index)
+* MACD (Trend indicator)
+* Volatility & Momentum
+* Lag-based returns
+
+---
+
+### 2. Model
+
+* XGBoost Classifier
+* Handles non-linear relationships
+* Robust for tabular financial data
+
+---
+
+### 3. Sentiment Integration
+
+* News scraped from Google News
+* Sentiment scored using VADER
+* Combined with model prediction (70% ML + 30% sentiment)
+
+---
+
+### 4. Prediction Logic
+
+```python
+score = (model_probability * 0.7) + (sentiment_score * 0.3)
+```
+
+* Score > 0.6 → BUY 📈
+* Score < 0.4 → SELL 📉
+* Else → HOLD ⏳
+
+---
+
+## 📊 Results
+
+| Metric            | Value |
+| ----------------- | ----- |
+| Model Accuracy    | ~XX%  |
+| Baseline Accuracy | ~XX%  |
+| Improvement       | +X%   |
+
+> ⚠️ Note: Stock prediction is inherently noisy. Even small improvements over baseline are meaningful.
+
+---
+
+## 📈 Backtesting (Key Highlight)
+
+The model is evaluated using a **long/short trading strategy**:
+
+* UP → Buy (Long)
+* DOWN → Sell (Short)
+
+### 📊 Strategy vs Market
+
+(Add your screenshot here)
+
+### 📊 Backtest Summary
+
+* Strategy Return: XX
+* Market Return: XX
+
+---
+
+## 📊 Feature Importance
+
+The model highlights which indicators influence predictions the most:
+
+* RSI → Momentum signal
+* MA50 → Long-term trend
+* Volatility → Market uncertainty
+
+(Add screenshot here)
+
+---
+
+## 🖥️ Application Features
+
+* Multi-stock analysis
+* Real-time prediction
+* Confidence score
+* Sentiment-aware signals
+* Interactive charts
+* Strategy backtesting
+
+---
+
+## 📂 Project Structure
+
+```
+app.py        → Streamlit UI
+data.py       → Data loading & preprocessing
+model.py      → Model training & evaluation
+utils.py      → Sentiment & signal logic
+```
+
+---
+
+## 🚀 How to Run Locally
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/stock-direction-predictor.git
+git clone https://github.com/your-repo-link
 cd stock-direction-predictor
-```
 
-### 2. Install dependencies
-
-```bash
 pip install -r requirements.txt
-```
-
----
-
-## ▶️ Run the App
-
-```bash
 streamlit run app.py
 ```
 
 ---
 
-## 📌 Example Tickers
+## 🧠 Key Learnings
 
-- RELIANCE.NS  
-- TCS.NS  
-- INFY.NS  
-- TSLA  
-- AAPL  
-
----
-
-## 📊 Output Includes
-
-- 📈 Prediction (UP / DOWN)  
-- 📊 Confidence score  
-- 🔔 Trading signal  
-- 📉 Interactive price chart  
-- 📊 Portfolio summary  
+* Stock prediction is close to random → evaluation matters more than accuracy
+* Feature engineering is critical in financial ML
+* Combining ML with external signals improves robustness
+* Backtesting is essential for real-world validation
 
 ---
 
-## 🛠️ Tech Stack
+## 📌 Future Improvements
 
-- Python  
-- Streamlit  
-- XGBoost  
-- Pandas / NumPy  
-- Plotly  
-- Yahoo Finance  
-- NLTK (VADER)  
-- BeautifulSoup  
+* Hyperparameter tuning
+* LSTM / deep learning models
+* Portfolio optimization
+* Real-time trading integration
 
 ---
-
-## ⚠️ Disclaimer
-
-This project is for **educational purposes only**.  
-It is **not financial advice**.
-
----
-
-## 📸 Screenshot
-
-<img width="800" height="500" alt="Screenshot 2026-04-02 170647" src="https://github.com/user-attachments/assets/4aa6b230-f0b6-4476-baf6-e50f7b5d7bb1" />
-<img width="800" height="500" alt="Screenshot 2026-04-02 170700" src="https://github.com/user-attachments/assets/05ade80d-d495-45a2-9c5f-b1512b5f7bf9" />
-<img width="800" height="500" alt="Screenshot 2026-04-02 170710" src="https://github.com/user-attachments/assets/27774400-ec13-4232-8440-b6aaa76c58d2" />
-
 
 ## 👨‍💻 Author
 
-**Pratham Agarwal**
+Pratham Agarwal
+
+* GitHub: https://github.com/1234pratham2k6k1234-glitch
+* LinkedIn: https://linkedin.com/in/pratham-agarwal-3931552a4/
 
 ---
-
-## ⭐ Support
-
-If you like this project, give it a ⭐ on GitHub!
