@@ -41,9 +41,11 @@ for stock in stock_list:
         model = train_model(X_train, y_train)
 
         acc, baseline, y_pred = evaluate_model(model, X_test, y_test)
-        # Backtesting
+        # Backtesting (Improved: Long/Short strategy)
         returns = df['Return'].iloc[split:]
-        strategy = returns * y_pred
+
+        positions = [1 if p == 1 else -1 for p in y_pred]
+        strategy = returns * positions
 
         cumulative_strategy = (1 + strategy).cumprod()
         cumulative_market = (1 + returns).cumprod()
@@ -58,6 +60,7 @@ for stock in stock_list:
         col1.metric("Accuracy", f"{acc:.2f}")
         col2.metric("Prediction", "UP" if pred==1 else "DOWN")
         col3.metric("Confidence", f"{confidence:.2f}")
+        st.caption("Confidence = probability of predicted direction")
         col4.metric("Baseline", f"{baseline:.2f}")
         st.info("📊 Note: Stock movement is highly noisy. Even small improvements over baseline are meaningful.")
 
@@ -75,6 +78,12 @@ for stock in stock_list:
         }
 
         st.line_chart(backtest_df)
+        final_strategy_return = cumulative_strategy.iloc[-1]
+        final_market_return = cumulative_market.iloc[-1]
+
+        st.write("### 📊 Backtest Summary")
+        st.write(f"Strategy Return: {final_strategy_return:.2f}")
+        st.write(f"Market Return: {final_market_return:.2f}")
 
         feat_df = feature_importance(model, features)
         st.bar_chart(feat_df.set_index('Feature'))
