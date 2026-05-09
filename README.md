@@ -82,6 +82,7 @@ score = (model_probability * 0.7) + (sentiment_score * 0.3)
 
 > ⚠️ Note: Stock prediction is inherently noisy. Even small improvements over baseline are meaningful.
 
+![Dashboard](images/dashboard.png)
 ---
 
 ## 📈 Backtesting (Key Highlight)
