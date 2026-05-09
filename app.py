@@ -41,6 +41,14 @@ for stock in stock_list:
         model = train_model(X_train, y_train)
 
         acc, baseline, y_pred = evaluate_model(model, X_test, y_test)
+        # Backtesting
+        returns = df['Return'].iloc[split:]
+        strategy = returns * y_pred
+
+        cumulative_strategy = (1 + strategy).cumprod()
+        cumulative_market = (1 + returns).cumprod()
+
+        
         pred, proba, confidence = predict_latest(model, X)
 
         sentiment = get_news_sentiment(stock)
@@ -51,15 +59,26 @@ for stock in stock_list:
         col2.metric("Prediction", "UP" if pred==1 else "DOWN")
         col3.metric("Confidence", f"{confidence:.2f}")
         col4.metric("Baseline", f"{baseline:.2f}")
+        st.info("📊 Note: Stock movement is highly noisy. Even small improvements over baseline are meaningful.")
 
         st.write(f"### 🔔 Signal: {signal}")
+        st.caption("Signal = 70% model probability + 30% sentiment score")
 
         fig = go.Figure()
         fig.add_trace(go.Scatter(x=df.index, y=df['Close'], name="Price"))
         st.plotly_chart(fig, use_container_width=True)
+        st.write("### 📈 Strategy vs Market Performance")
+
+        backtest_df = {
+            "Strategy": cumulative_strategy,
+            "Market": cumulative_market
+        }
+
+        st.line_chart(backtest_df)
 
         feat_df = feature_importance(model, features)
         st.bar_chart(feat_df.set_index('Feature'))
+        st.caption("Feature importance shows which indicators most influence the model predictions.")
 
         portfolio_results.append({
             "Stock": stock,
