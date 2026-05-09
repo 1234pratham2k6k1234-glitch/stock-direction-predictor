@@ -86,16 +86,18 @@ def load_data(stock):
 def prepare_data(df):
     close = df['Close']
     
-    df['Target'] = (close.shift(-1) > close).astype(int)
+    df['Future_Return'] = close.shift(-1) / close - 1
+    df['Target'] = (df['Future_Return'] > 0.005).astype(int)
     df['MA10'] = close.rolling(10).mean()
     df['MA50'] = close.rolling(50).mean()
     df['RSI'] = ta.momentum.RSIIndicator(close).rsi()
     df['MACD'] = ta.trend.MACD(close).macd()
     df['Return'] = close.pct_change()
-    
-    df['Lag1'] = close.shift(1)
-    df['Lag2'] = close.shift(2)
-    df['Lag3'] = close.shift(3)
+    df['Lag1'] = df['Return'].shift(1)
+    df['Lag2'] = df['Return'].shift(2)
+    df['Lag3'] = df['Return'].shift(3)
+    df['Volatility'] = close.pct_change().rolling(10).std()
+    df['Momentum'] = close - close.shift(10)
     
     df.dropna(inplace=True)
     return df
@@ -148,6 +150,8 @@ for stock in stock_list:
         latest = X.iloc[-1:]
         pred = model.predict(latest)[0]
         proba = model.predict_proba(latest)[0]
+        confidence = proba[1] if pred == 1 else proba[0]
+        baseline = (y_test.shift(1) == y_test).mean()
         
         # Sentiment
         sentiment = get_news_sentiment(stock)
@@ -168,7 +172,8 @@ for stock in stock_list:
         col1, col2, col3, col4 = st.columns(4)
         col1.metric("Accuracy", f"{acc:.2f}")
         col2.metric("Prediction", "UP" if pred==1 else "DOWN")
-        col3.metric("Confidence", f"{max(proba):.2f}")
+        col3.metric("Confidence", f"{confidence:.2f}")
+        col4.metric("Baseline", f"{baseline:.2f}")
        
         
         st.write(f"### 🔔 Signal: {signal}")
@@ -195,6 +200,13 @@ for stock in stock_list:
             "Signal": signal,
             "Accuracy": round(acc,2)
         })
+        importance = model.feature_importances_
+        feat_df = pd.DataFrame({
+            'Feature': features,
+            'Importance': importance
+       }).sort_values(by='Importance', ascending=False)
+
+        st.bar_chart(feat_df.set_index('Feature'))
     
     except Exception as e:
         st.error(f"Error loading {stock}: {e}")
