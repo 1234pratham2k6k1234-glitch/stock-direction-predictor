@@ -94,7 +94,7 @@ The model is evaluated using a **long/short trading strategy**:
 
 ### 📊 Strategy vs Market
 
-(Add your screenshot here)
+![Backtest](images/backtest.png)
 
 ### 📊 Backtest Summary
 
