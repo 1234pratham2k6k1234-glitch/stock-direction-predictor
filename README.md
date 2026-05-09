@@ -111,7 +111,7 @@ The model highlights which indicators influence predictions the most:
 * MA50 → Long-term trend
 * Volatility → Market uncertainty
 
-(Add screenshot here)
+![Feature Importance](images/feature.png)
 
 ---
 
