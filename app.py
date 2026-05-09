@@ -76,7 +76,7 @@ def get_news_sentiment(stock):
 # =========================================
 @st.cache_data
 def load_data(stock):
-    df = yf.download(stock, start="2018-01-01", interval="1d")
+    df = yf.download(stock, start="2023-01-01", interval="1d")
     df.columns = df.columns.get_level_values(0)
     return df
 
