@@ -97,8 +97,8 @@ The model is evaluated using a **long/short trading strategy**:
 
 ### 📊 Backtest Summary
 
-* Strategy Return: XX
-* Market Return: XX
+* Strategy Return: 0.8
+* Market Return: 0.92
 
 ---
 
